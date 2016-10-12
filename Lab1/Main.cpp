@@ -1,3 +1,6 @@
+/*
+bouncing balls animation using OpenGL and Glut
+*/
 
 #include <cmath>
 #include <ctime>
@@ -7,105 +10,80 @@
 #include <string>
 
 using namespace std;
+
 #  include <GL/glut.h>
 
 const double pi = 4 * atan(1.0);
-//const double g = 9.8;
-const double L = 10.0;     // physical region: -L < x < L and 0 < y < L
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 480;
+const double R = 15.0;   
+const int DEFAULT_SCREEN_WIDTH = 800;
+const int DEFAULT_SCREEN_HEIGHT = 400;
+int screenWidth = DEFAULT_SCREEN_WIDTH;
+int screenHeight = DEFAULT_SCREEN_HEIGHT;
 
-class Ball {
+class BouncingBall {
 
 public:
 
-	double x, y, vx, vy;
+	double x, vx, y, vy;
 
-	Ball(double x, double y, double vx, double vy) {
+	BouncingBall(double x, double vx, double y, double vy) {
 		this->x = x;
 		this->vx = vx;
 		this->y = y;
 		this->vy = vy;
 	}
 
-	void step() {
+	void step(double dt) {
 		x += vx;
 		y += vy;
 
-		if (x >  SCREEN_WIDTH) vx = -abs(vx);      // bounce off right wall
-		if (x < 0) vx = abs(vx);        // bounce off left wall
+		if (x >  R) vx = -abs(vx);      // bounce off right wall
+		if (x < -R) vx = abs(vx);        // bounce off left wall
 		if (y <  0) vy = abs(vy);        // bounce off floor
-		if (y > SCREEN_HEIGHT) vy = -abs(vy);
+		if (y > R) vy = -abs(vy);
 	}
 };
 
-int N = 10;            // number of balls
-int vMax = 20;     // maximum initial speed
-double dt = 0.001;     
+int N = 1;            // number of balls
+double v_max = 1;     // maximum initial speed
+double dt = 0.01;     // time step for Euler method
 double t = 0;             // simulation time
 int step_number = 0;      // time step number
 
-/*void get_input() {
-	cout << "Bouncing balls simulation" << endl;
-	cout << "-------------------------" << endl;
-	cout << "Enter number of balls: " << flush;
-	cin >> N;
-	if (N < 1) N = 2;
-	cout << "Enter maximum speed: " << flush;
-	cin >> vMax;
-	if (vMax < 0) vMax = -vMax;
-	cout << "Enter time step dt: " << flush;
-	cin >> dt;
-	t = 0;
-	step_number = 0;
-}*/
 
-double generateV()
-{
-	int v = 0;
-	while (v == 0)
-	{
-		v = rand() % vMax;
-	};
-	return v;
-}
-
-Ball **balls;    // pointer to and array of ball pointers
+BouncingBall **balls;    // pointer to and array of ball pointers
 
 void create_balls() {
-	balls = new Ball*[N];
+	balls = new BouncingBall*[N];
 	srand(time(NULL));
 	for (int i = 0; i < N; i++) {
-		//double theta = pi * rand() / double(RAND_MAX);
-		int x = rand() % SCREEN_WIDTH;
-		int y = rand() % SCREEN_HEIGHT;
-		double vx = generateV();
-		double vy = generateV();
-		balls[i] = new Ball(x, y, vx, vy);
+		int x = rand() % DEFAULT_SCREEN_WIDTH;
+		int y = rand() % DEFAULT_SCREEN_HEIGHT;
+		double vx = 0.02*(i+1);
+		double vy = 0.1*(i+1);
+		balls[i] = new BouncingBall(0, vx, 0, vy);
 	}
 }
-
-
 
 // move each ball by one time step dt
 void step() {
 	for (int i = 0; i < N; i++)
-		balls[i]->step();
+		balls[i]->step(dt);
 	t += dt;
 	++step_number;
 }
 
-double frames_per_second = 24;   // for animation in real time
+double frames_per_second = 30;   // for animation in real time
 
 void animation_step() {
 	double start = t;
 	clock_t start_time = clock();
 	step();
-	/*double tau = 1.0 / frames_per_second;
+	double tau = 1.0 / frames_per_second;
 	while (t - start < tau)
 		step();
 	while ((double(clock()) - start_time) / CLOCKS_PER_SEC < tau)
-		;*/
+		;
 	glutPostRedisplay();
 }
 
@@ -135,8 +113,9 @@ void display() {
 	}
 	glColor3ub(0, 0, 0);
 	ostringstream os;
-	os << "Step No: " << step_number << "   Time t = " << t << ends;
-	drawText(os.str(), -L + L / 50, L / 20);
+	//os << "Step No: " << step_number << "   Time t = " << t << ends;
+	os << balls[0]->x << "; " << balls[0]->y << ends;
+	//drawText(os.str(), -R + R / 50, R / 20);
 	os.seekp(0);
 
 	glutSwapBuffers();
@@ -147,38 +126,21 @@ void reshape(int w, int h) {
 	glViewport(0, 0, w, h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluOrtho2D(-L, L, 0, L / w*(2.0*h));
+	//gluOrtho2D(0, w, 0, h);
+	glOrtho(-screenWidth / 2, screenWidth / 2 - 1, -screenHeight / 2, screenHeight / 2 - 1, -1, 1);
+	//gluOrtho2D(-R-3, R-5, 0, R / w*(2.0*h));
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
-
-bool running = true;   // is the animation running
-
-						// Glut mouse callback function
-/*void mouse(int button, int state, int x, int y) {
-	switch (button) {
-	case GLUT_LEFT_BUTTON:
-		if (state == GLUT_DOWN) {
-			if (running) {
-				glutIdleFunc(NULL);
-				running = false;
-			}
-			else {
-				glutIdleFunc(animation_step);
-				running = true;
-			}
-		}
-	}
-}*/
 
 int main(int argc, char *argv[]) {
 	glutInit(&argc, argv);
 	//get_input();
 	create_balls();
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+	glutInitWindowSize(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 	glutInitWindowPosition(100, 100);
-	glutCreateWindow("Bouncing Balls Animation");
+	glutCreateWindow("Computer graphics lab1");
 	glClearColor(1.0, 1.0, 1.0, 0.0);
 	glShadeModel(GL_FLAT);
 	glutDisplayFunc(display);
