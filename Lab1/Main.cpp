@@ -97,229 +97,58 @@ void Draw_sh() {
 	GLUquadricObj *quadObj;
 	quadObj = gluNewQuadric();
 
-	// подставка
-	Coord startBase = { 0, 0, 0 };
+	// основание(фигура 2)
+	Coord startFig2 = { 0, -200, 0 };
 	Color color = { 0.3, 0.3, 0.3 };
-	int lengthBaseX = 300, lengthBaseY = 20, lengthBaseZ = 300;
-	drawParallelogram(color, startBase, lengthBaseX, lengthBaseY, lengthBaseZ);
+	int lengthFig2X = 300, lengthFig2Y = 20, lengthFig2Z = 300;
+	drawParallelogram(color, startFig2, lengthFig2X, lengthFig2Y, lengthFig2Z);
 
-	// параллелограм над подставкой
+	// параллелограм над подставкой(фигура 3)
 	color = {0.8, 0, 0};
-	int marginRelativeBaseX = 50, marginRelativeBaseZ = 20;
-	Coord startPar1 = { startBase.x + marginRelativeBaseX, startBase.y + lengthBaseY, startBase.z + marginRelativeBaseZ };
-	int lengthPar1X = lengthBaseX - 2 * marginRelativeBaseX;
-	int lengthPar1Y = 150;
-	int lengthPar1Z = lengthBaseZ - 2 * marginRelativeBaseZ;
-	drawParallelogram(color, startPar1, lengthPar1X, lengthPar1Y, lengthPar1Z);
+	int marginRelativeFig2X = 50, marginRelativeFig2Z = 20;
+	Coord startFig3 = { startFig2.x + marginRelativeFig2X, startFig2.y + lengthFig2Y + 1, startFig2.z + marginRelativeFig2Z };
+	int lengthFig3X = lengthFig2X - 2 * marginRelativeFig2X;
+	int lengthFig3Y = 150;
+	int lengthFig3Z = lengthFig2Z - 2 * marginRelativeFig2Z;
+	drawParallelogram(color, startFig3, lengthFig3X, lengthFig2Y, lengthFig3Z);
 	
-	// параллелограм над параллелограмом над подставкой
-	color = { 1, 1, 1 };
-	int marginRelativePar1X = 20;
-	Coord startPar2 = { startPar1.x + marginRelativePar1X, startPar1.y + lengthPar1Y, startPar1.z};
-	int lengthPar2X = lengthPar1X - marginRelativeBaseX; 
-	int lengthPar2Y = 125;
-	int lengthPar2Z = lengthPar1Z;
-	drawParallelogram(color, startPar2, lengthPar2X, lengthPar2Y, lengthPar2Z);
+	// параллелограм над параллелограмом над подставкой(фигура 4)
+	color = { 0.7, 0, 0 };
+	int marginRelativeFig3X = 20;
+	Coord startFig4 = { startFig3.x + marginRelativeFig3X, startFig3.y + lengthFig2Y + 1, startFig3.z};
+	int lengthFig4X = lengthFig3X - marginRelativeFig3X;
+	int lengthFig4Y = 125;
+	int lengthFig4Z = lengthFig3Z;
+	drawParallelogram(color, startFig4, lengthFig4X, lengthFig4Y, lengthFig4Z);
 
-	////нос кончик
-	//glPushMatrix();
-	//glColor3f(0.7, 0.7, 0.7);
-	//glTranslatef(-160, 0, 0);
-	//glRotated(-90, 0, 1, 0);
-	//glScalef(1, 1, 3);
-	//gluSphere(quadObj, 30, 50, 50);
-	//glPopMatrix();
+	// фигура 5
+	color = { 0.6, 0, 0 };
+	int marginRelativeFig4X = 20;
+	Coord startFig5 = { startFig4.x + marginRelativeFig4X, startFig4.y + lengthFig4Y + 1, startFig4.z };
+	int lengthFig5X = lengthFig4X - marginRelativeFig4X;
+	int lengthFig5Y = 80;
+	int lengthFig5Z = lengthFig3Z;
+	drawParallelogram(color, startFig5, lengthFig5X, lengthFig5Y, lengthFig5Z);
 
+	//фигура 6
+	color = { 0.83,  0.83,  0.83 };
+	int lengthFig6X = 100;
+	int lengthFig6Y = 20;
+	int lengthFig6Z = 50;
+	int marginRelativeFig5Y = (lengthFig5Y - lengthFig6Y) / 2;
+	int marginRelativeFig5Z = 40;
+	Coord startFig6 = { startFig5.x - lengthFig6X + 1, startFig5.y + marginRelativeFig5Y,startFig5.z + marginRelativeFig5Z};
+	drawParallelogram(color, startFig6, lengthFig6X, lengthFig6Y, lengthFig6Z);
 
-	////тело
-	//glPushMatrix();
-	//glColor3f(0.7, 0.7, 0.7);
-	//glRotated(-90, 0, 1, 0);
-	//gluCylinder(quadObj, 30, 30, 150, 50, 50);
-	//glPopMatrix();
-
-	////хвост 
-	//glPushMatrix();
-	//glColor3f(0.7, 0.7, 0.7);
-	//glTranslatef(-5, 0, 0);
-	//glRotated(-90, 0, 1, 0);
-	//glRotated(190, 1, 0, 0);
-	//gluCylinder(quadObj, 30, 10, 130, 50, 50);
-	//glPopMatrix();
-
-	//// жопка
-
-	//glPushMatrix();
-	//glColor3f(0.7, 0.7, 0.7);
-	//glTranslatef(115, 22, 0);
-	//glRotated(-90, 0, 1, 0);
-	//glRotated(13, 1, 0, 1);
-	//glScalef(1, 1, 3);
-	//gluSphere(quadObj, 10, 50, 50);
-	//glPopMatrix();
-
-
-	////верхний треугольник 
-	//glPushMatrix();
-	//glTranslatef(0, 0, 0);
-	//glColor3f(0.7, 0.7, 0.9);
-
-	//glBegin(GL_QUADS);
-	//glVertex3f(20, 28, -4);
-	//glVertex3f(130, 125, -4);
-	//glVertex3f(130, 125, 4);
-	//glVertex3f(20, 28, 4);
-	//glEnd();
-
-	//glBegin(GL_QUADS);
-	//glVertex3f(130, 125, -4);
-	//glVertex3f(150, 130, -4);
-	//glVertex3f(150, 130, 4);
-	//glVertex3f(130, 125, 4);
-	//glEnd();
-
-	//glBegin(GL_QUADS);
-	//glVertex3f(150, 130, -4);
-	//glVertex3f(120, 30, -4);
-	//glVertex3f(120, 30, 4);
-	//glVertex3f(150, 130, 4);
-	//glEnd();
-
-	//glBegin(GL_POLYGON);
-	//glVertex3f(20, 28, 4);
-	//glVertex3f(130, 125, 4);
-	//glVertex3f(150, 130, 4);
-	//glVertex3f(120, 30, 4);
-	//glVertex3f(20, 28, 4);
-	//glEnd();
-
-	//glBegin(GL_POLYGON);
-	//glVertex3f(20, 28, -4);
-	//glVertex3f(130, 125, -4);
-	//glVertex3f(150, 130, -4);
-	//glVertex3f(120, 30, -4);
-	//glVertex3f(20, 28, -4);
-	//glEnd();
-	//glPopMatrix();
-
-	////маленькие треугольники на хвосте 
-
-	//glPushMatrix();
-	//glTranslatef(0, 0, 0);
-	//glColor3f(0.7, 0.7, 0.9);
-	//glBegin(GL_POLYGON);
-	//glVertex3f(110, 25, 50);
-	//glVertex3f(70, 20, 0);
-	//glVertex3f(110, 25, -50);
-	//glEnd();
-
-	//glBegin(GL_POLYGON);
-	//glVertex3f(110, 20, 50);
-	//glVertex3f(70, 15, 0);
-	//glVertex3f(110, 20, -50);
-	//glEnd();
-	//glPopMatrix();
-
-	//glBegin(GL_QUAD_STRIP);
-	//glVertex3f(110, 25, 50);
-	//glVertex3f(110, 20, 50);
-	//glVertex3f(110, 25, -50);
-	//glVertex3f(110, 20, -50);
-	//glVertex3f(70, 20, 0);
-	//glVertex3f(70, 15, 0);
-	//glVertex3f(110, 25, 50);
-	//glVertex3f(110, 20, 50);
-
-	//glEnd();
-	//glPopMatrix();
-
-	////крылья
-
-	//glPushMatrix();
-	//glTranslatef(0, 0, 0);
-	//glBegin(GL_POLYGON);
-
-	//glPointSize(20);
-	//glColor3f(0.7, 0.7, 0.7);
-
-	//glVertex3f(-40, 3, 20);
-	//glVertex3f(-15, 3, 170);
-	//glVertex3f(20, 3, 200);
-	//glVertex3f(10, 3, 20);
-
-	//glVertex3f(10, 3, -20);
-	//glVertex3f(20, 3, -200);
-	//glVertex3f(-15, 3, -170);
-	//glVertex3f(-40, 3, -20);
-
-	//glVertex3f(-40, -3, 20);
-	//glVertex3f(-15, -3, 170);
-	//glVertex3f(20, -3, 200);
-	//glVertex3f(10, -3, 20);
-
-	//glVertex3f(10, -3, -20);
-	//glVertex3f(20, -3, -200);
-	//glVertex3f(-15, -3, -170);
-	//glVertex3f(-40, -3, -20);
-
-	//glEnd();
-
-	////боковушки крыльев
-
-	//glBegin(GL_QUAD_STRIP);
-	//glVertex3f(-40, 3, 20);
-	//glVertex3f(-40, -3, 20);
-	//glVertex3f(-15, 3, 170);
-	//glVertex3f(-15, -3, 170);
-	//glVertex3f(20, 3, 200);
-	//glVertex3f(20, -3, 200);
-	//glVertex3f(10, 3, 20);
-	//glVertex3f(10, -3, 20);
-
-	//glVertex3f(-40, 3, -20);
-	//glVertex3f(-40, -3, -20);
-	//glVertex3f(-15, 3, -170);
-	//glVertex3f(-15, -3, -170);
-	//glVertex3f(20, 3, -200);
-	//glVertex3f(20, -3, -200);
-	//glVertex3f(10, 3, -20);
-	//glVertex3f(10, -3, -20);
-	//glEnd();
-	//glPopMatrix();
-
-
-	////турбины
-
-	//glPushMatrix();
-	//glColor3f(0.7, 0.7, 0.7);
-	//glTranslatef(20, -15, 100);
-	//glRotated(-90, 0, 1, 0);
-	//gluCylinder(quadObj, 15, 15, 40, 50, 50);
-	//glPopMatrix();
-
-	//glPushMatrix();
-	//glColor3f(0.6, 0.6, 0.6);
-	//glTranslatef(15, -15, 100);
-	//glRotated(-90, 0, 1, 0);
-	//glScalef(1, 1, 2.5);
-	//gluSphere(quadObj, 15, 50, 50);
-	//glPopMatrix();
-
-	//glPushMatrix();
-	//glColor3f(0.7, 0.7, 0.7);
-	//glTranslatef(20, -15, -100);
-	//glRotated(-90, 0, 1, 0);
-	//gluCylinder(quadObj, 15, 15, 40, 50, 50);
-	//glPopMatrix();
-
-	//glPushMatrix();
-	//glColor3f(0.6, 0.6, 0.6);
-	//glTranslatef(15, -15, -100);
-	//glRotated(-90, 0, 1, 0);
-	//glScalef(1, 1, 2.5);
-	//gluSphere(quadObj, 15, 50, 50);
-	//glPopMatrix();
-
+	//фигура 7
+	color = { 0, 0,  0 };
+	int lengthFig7X = 130;
+	int lengthFig7Y = 30;
+	int lengthFig7Z = 50;
+	int marginRelativeFig5Y_2 = (lengthFig5Y - lengthFig6Y) / 2;
+	int marginRelativeFig5Z_2 = marginRelativeFig5Z + lengthFig6Z + 80;
+	Coord startFig7 = { startFig5.x - lengthFig7X + 1, startFig5.y + marginRelativeFig5Y_2,startFig5.z + marginRelativeFig5Z_2 };
+	drawParallelogram(color, startFig7, lengthFig7X, lengthFig7Y, lengthFig7Z);
 
 	////оси
 	glPushMatrix();	
