@@ -4,11 +4,11 @@
 #include <glut.h>
 #include <math.h>
 
-float width_win = 700;
-float higth_win = 700;
+const float SCREEN_WIDTH = 700;
+const float SCREEN_HEIGHT = 700;
 float diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-float pos[] = { width_win / 2, higth_win / 2, 250.0, 0.0 };
-float pos2[] = { 0, 0, 500.0, 0.0 };
+float pos[] = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 250.0, 0.0 };
+float pos2[] = { -100, 0, 500.0, 0.0 };
 float angel = 0.0;
 float rot = 0.0;
 float scal = 0.0;
@@ -117,7 +117,11 @@ void Draw_sh() {
 	// параллелограм над подставкой(фигура 3)
 	color = {0.8, 0, 0};
 	int marginRelativeFig2X = 50, marginRelativeFig2Z = 20;
-	Coord startFig3 = { startFig2.x + marginRelativeFig2X, startFig2.y + lengthFig2Y + 1, startFig2.z + marginRelativeFig2Z };
+	Coord startFig3 = { 
+		startFig2.x + marginRelativeFig2X, 
+		startFig2.y + lengthFig2Y, 
+		startFig2.z + marginRelativeFig2Z
+	};
 	int lengthFig3X = lengthFig2X - 2 * marginRelativeFig2X;
 	int lengthFig3Y = 150;
 	int lengthFig3Z = lengthFig2Z - 2 * marginRelativeFig2Z;
@@ -126,7 +130,11 @@ void Draw_sh() {
 	// параллелограм над параллелограмом над подставкой(фигура 4)
 	color = { 0.7, 0, 0 };
 	int marginRelativeFig3X = 20;
-	Coord startFig4 = { startFig3.x + marginRelativeFig3X, startFig3.y + lengthFig2Y + 1, startFig3.z};
+	Coord startFig4 = {
+		startFig3.x + marginRelativeFig3X,
+		startFig3.y + lengthFig2Y,
+		startFig3.z
+	};
 	int lengthFig4X = lengthFig3X - marginRelativeFig3X;
 	int lengthFig4Y = 125;
 	int lengthFig4Z = lengthFig3Z;
@@ -135,7 +143,11 @@ void Draw_sh() {
 	// фигура 5
 	color = { 0.6, 0, 0 };
 	int marginRelativeFig4X = 20;
-	Coord startFig5 = { startFig4.x + marginRelativeFig4X, startFig4.y + lengthFig4Y + 1, startFig4.z };
+	Coord startFig5 = { 
+		startFig4.x + marginRelativeFig4X,
+		startFig4.y + lengthFig4Y,
+		startFig4.z 
+	};
 	int lengthFig5X = lengthFig4X - marginRelativeFig4X;
 	int lengthFig5Y = 80;
 	int lengthFig5Z = lengthFig3Z;
@@ -149,7 +161,7 @@ void Draw_sh() {
 	int marginRelativeFig5Y = (lengthFig5Y - lengthFig6Y) / 2;
 	int marginRelativeFig5Z = 40;
 	Coord startFig6 = { 
-		startFig5.x - lengthFig6X + 1,
+		startFig5.x - lengthFig6X,
 		startFig5.y + marginRelativeFig5Y,
 		startFig5.z + marginRelativeFig5Z
 	};
@@ -163,7 +175,7 @@ void Draw_sh() {
 	int marginRelativeFig5Y_2 = (lengthFig5Y - lengthFig6Y) / 2;
 	int marginRelativeFig5Z_2 = marginRelativeFig5Z + lengthFig6Z + 80;
 	Coord startFig7 = { 
-		startFig5.x - lengthFig7X + 1,
+		startFig5.x - lengthFig7X,
 		startFig5.y + marginRelativeFig5Y_2,
 		startFig5.z + marginRelativeFig5Z_2 
 	};
@@ -187,7 +199,7 @@ void Draw_sh() {
 	int lengthFig9Z = lengthFig5Z - marginFig9RelativeFig5Z * 2;
 	Coord startFig9 = { 
 		startFig5.x + marginFig9RelativeFig5X,
-		startFig5.y + lengthFig5Y + 1,
+		startFig5.y + lengthFig5Y,
 		startFig5.z + marginFig9RelativeFig5Z
 	};
 	drawParallelogram(color, startFig9, lengthFig9X, lengthFig9Y, lengthFig9Z);
@@ -201,7 +213,7 @@ void Draw_sh() {
 	int lengthFig10Z = lengthFig5Z - marginFig10RelativeFig5Z * 2;
 	Coord startFig10 = {
 		startFig5.x + marginFig10RelativeFig5X,
-		startFig9.y + lengthFig9Y + 1,
+		startFig9.y + lengthFig9Y,
 		startFig5.z + marginFig10RelativeFig5Z
 	};
 	drawParallelogram(color, startFig10, lengthFig10X, lengthFig10Y, lengthFig10Z);
@@ -215,7 +227,7 @@ void Draw_sh() {
 	int lengthFig11Z = lengthFig9Z;
 	Coord startFig11 = {
 		startFig9.x,
-		startFig10.y + lengthFig10Y + 1,
+		startFig10.y + lengthFig10Y,
 		startFig9.z
 	};
 	drawParallelogram(color, startFig11, lengthFig11X, lengthFig11Y, lengthFig11Z);
@@ -229,7 +241,7 @@ void Draw_sh() {
 	int lengthFig12Z = lengthFig10Z;
 	Coord startFig12 = {
 		startFig10.x,
-		startFig11.y + lengthFig11Y + 1,
+		startFig11.y + lengthFig11Y,
 		startFig10.z
 	};
 	drawParallelogram(color, startFig12, lengthFig12X, lengthFig12Y, lengthFig12Z);
@@ -243,7 +255,7 @@ void Draw_sh() {
 	int lengthFig13Z = lengthFig9Z;
 	Coord startFig13 = {
 		startFig9.x,
-		startFig12.y + lengthFig12Y + 1,
+		startFig12.y + lengthFig12Y,
 		startFig9.z
 	};
 	drawParallelogram(color, startFig13, lengthFig13X, lengthFig13Y, lengthFig13Z);
@@ -255,7 +267,7 @@ void Draw_sh() {
 	int lengthFig14Z = lengthFig5Z;
 	Coord startFig14 = {
 		startFig5.x,
-		startFig13.y + lengthFig13Y + 1,
+		startFig13.y + lengthFig13Y,
 		startFig5.z
 	};
 	drawParallelogram(color, startFig14, lengthFig14X, lengthFig14Y, lengthFig14Z);
@@ -374,7 +386,6 @@ void Draw_sh() {
 	//glDisable(GL_DEPTH_TEST);
 	glutSwapBuffers();
 
-
 }
 
 
@@ -490,7 +501,7 @@ void Init() {
 	glClearColor(180.0 / 255.0, 243.0 / 255.0, 246.0 / 255.0, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glOrtho(-width_win / 2, width_win / 2, -higth_win / 2, higth_win / 2, -250, 250);
+	glOrtho(-SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, -250, 250);
 	glMatrixMode(GL_MODELVIEW);
 
 
@@ -500,7 +511,7 @@ void Init() {
 int main(int argc, char**argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(width_win, higth_win);
+	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	glutCreateWindow("Лабораторная работа 2");
 	glutDisplayFunc(Draw_sh);
