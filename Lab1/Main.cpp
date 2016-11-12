@@ -23,10 +23,16 @@ struct Coord {
 	int z;
 };
 
-void drawParallelogram(Coord start, int heightX, int heightY, int heightZ) {
+struct Color {
+	double red;
+	double green;
+	double blue;
+};
+
+void drawParallelogram(Color color, Coord start, int heightX, int heightY, int heightZ) {
 	glPushMatrix();
 	glTranslatef(0, 0, 0);
-	glColor3f(0.3, 0.3, 0.3);
+	glColor3f(color.red, color.green, color.blue);
 
 	//грань 1
 	glBegin(GL_QUADS);
@@ -92,10 +98,28 @@ void Draw_sh() {
 	quadObj = gluNewQuadric();
 
 	// подставка
-	struct Coord start = { 0, 0, 0 };
-	drawParallelogram(start, 300, 20, 300);
+	Coord startBase = { 0, 0, 0 };
+	Color color = { 0.3, 0.3, 0.3 };
+	int lengthBaseX = 300, lengthBaseY = 20, lengthBaseZ = 300;
+	drawParallelogram(color, startBase, lengthBaseX, lengthBaseY, lengthBaseZ);
 
+	// параллелограм над подставкой
+	color = {0.8, 0, 0};
+	int marginRelativeBaseX = 50, marginRelativeBaseZ = 20;
+	Coord startPar1 = { startBase.x + marginRelativeBaseX, startBase.y + lengthBaseY, startBase.z + marginRelativeBaseZ };
+	int lengthPar1X = lengthBaseX - 2 * marginRelativeBaseX;
+	int lengthPar1Y = 150;
+	int lengthPar1Z = lengthBaseZ - 2 * marginRelativeBaseZ;
+	drawParallelogram(color, startPar1, lengthPar1X, lengthPar1Y, lengthPar1Z);
 	
+	// параллелограм над параллелограмом над подставкой
+	color = { 1, 1, 1 };
+	int marginRelativePar1X = 20;
+	Coord startPar2 = { startPar1.x + marginRelativePar1X, startPar1.y + lengthPar1Y, startPar1.z};
+	int lengthPar2X = lengthPar1X - marginRelativeBaseX; 
+	int lengthPar2Y = 125;
+	int lengthPar2Z = lengthPar1Z;
+	drawParallelogram(color, startPar2, lengthPar2X, lengthPar2Y, lengthPar2Z);
 
 	////нос кончик
 	//glPushMatrix();
@@ -326,7 +350,7 @@ void Draw_sh() {
 	glEnd();
 	glPopMatrix();
 
-	glDisable(GL_DEPTH_TEST);
+	//glDisable(GL_DEPTH_TEST);
 	glutSwapBuffers();
 
 
