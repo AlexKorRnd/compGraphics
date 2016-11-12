@@ -130,25 +130,135 @@ void Draw_sh() {
 	int lengthFig5Z = lengthFig3Z;
 	drawParallelogram(color, startFig5, lengthFig5X, lengthFig5Y, lengthFig5Z);
 
-	//фигура 6
+	//фигура 6(взбивалка для яиц)
 	color = { 0.83,  0.83,  0.83 };
 	int lengthFig6X = 100;
 	int lengthFig6Y = 20;
 	int lengthFig6Z = 50;
 	int marginRelativeFig5Y = (lengthFig5Y - lengthFig6Y) / 2;
 	int marginRelativeFig5Z = 40;
-	Coord startFig6 = { startFig5.x - lengthFig6X + 1, startFig5.y + marginRelativeFig5Y,startFig5.z + marginRelativeFig5Z};
+	Coord startFig6 = { 
+		startFig5.x - lengthFig6X + 1,
+		startFig5.y + marginRelativeFig5Y,
+		startFig5.z + marginRelativeFig5Z
+	};
 	drawParallelogram(color, startFig6, lengthFig6X, lengthFig6Y, lengthFig6Z);
 
-	//фигура 7
-	color = { 0, 0,  0 };
+	//фигура 7(ручка вантуза)
+	color = { 0.73, 0.73,  0.73 };
 	int lengthFig7X = 130;
 	int lengthFig7Y = 30;
 	int lengthFig7Z = 50;
 	int marginRelativeFig5Y_2 = (lengthFig5Y - lengthFig6Y) / 2;
 	int marginRelativeFig5Z_2 = marginRelativeFig5Z + lengthFig6Z + 80;
-	Coord startFig7 = { startFig5.x - lengthFig7X + 1, startFig5.y + marginRelativeFig5Y_2,startFig5.z + marginRelativeFig5Z_2 };
+	Coord startFig7 = { 
+		startFig5.x - lengthFig7X + 1,
+		startFig5.y + marginRelativeFig5Y_2,
+		startFig5.z + marginRelativeFig5Z_2 
+	};
 	drawParallelogram(color, startFig7, lengthFig7X, lengthFig7Y, lengthFig7Z);
+
+	//фигура 8(конец вантуза)
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	glTranslatef(startFig7.x, startFig7.y + lengthFig7Y / 2, startFig7.z + lengthFig7Z / 2);
+	glScalef(1, 2.5, 2.5);
+	gluSphere(quadObj, 10, lengthFig7Y, lengthFig7Z);
+	glPopMatrix();
+
+	//фигура 9
+	glTranslatef(0, 0, 0);
+	color = { 0.8, 0.8, 0.8 };
+	int marginFig9RelativeFig5X = 10;
+	int marginFig9RelativeFig5Z = 20;
+	int lengthFig9X = lengthFig5X - marginFig9RelativeFig5X * 2;
+	int lengthFig9Y = 10;
+	int lengthFig9Z = lengthFig5Z - marginFig9RelativeFig5Z * 2;
+	Coord startFig9 = { 
+		startFig5.x + marginFig9RelativeFig5X,
+		startFig5.y + lengthFig5Y + 1,
+		startFig5.z + marginFig9RelativeFig5Z
+	};
+	drawParallelogram(color, startFig9, lengthFig9X, lengthFig9Y, lengthFig9Z);
+
+	//фигура 10
+	color = { 0, 0, 0 };
+	int marginFig10RelativeFig5X = 20;
+	int marginFig10RelativeFig5Z = 30;
+	int lengthFig10X = lengthFig5X - marginFig10RelativeFig5X * 2;
+	int lengthFig10Y = 5;
+	int lengthFig10Z = lengthFig5Z - marginFig10RelativeFig5Z * 2;
+	Coord startFig10 = {
+		startFig5.x + marginFig10RelativeFig5X,
+		startFig9.y + lengthFig9Y + 1,
+		startFig5.z + marginFig10RelativeFig5Z
+	};
+	drawParallelogram(color, startFig10, lengthFig10X, lengthFig10Y, lengthFig10Z);
+
+	//фигура 11
+	color = { 0.8, 0.8, 0.8 };
+	int marginFig11RelativeFig5X = marginFig9RelativeFig5X;
+	int marginFig11RelativeFig5Z = marginFig9RelativeFig5Z;
+	int lengthFig11X = lengthFig9X;
+	int lengthFig11Y = lengthFig9Y;
+	int lengthFig11Z = lengthFig9Z;
+	Coord startFig11 = {
+		startFig9.x,
+		startFig10.y + lengthFig10Y + 1,
+		startFig9.z
+	};
+	drawParallelogram(color, startFig11, lengthFig11X, lengthFig11Y, lengthFig11Z);
+
+	//фигура 12
+	color = { 0, 0, 0 };
+	int marginFig12RelativeFig5X = marginFig10RelativeFig5X;
+	int marginFig12RelativeFig5Z = marginFig10RelativeFig5Z;
+	int lengthFig12X = lengthFig10X;
+	int lengthFig12Y = lengthFig10Y;
+	int lengthFig12Z = lengthFig10Z;
+	Coord startFig12 = {
+		startFig10.x,
+		startFig11.y + lengthFig11Y + 1,
+		startFig10.z
+	};
+	drawParallelogram(color, startFig12, lengthFig12X, lengthFig12Y, lengthFig12Z);
+
+	//фигура 13
+	color = { 0.8, 0.8, 0.8 };
+	int marginFig13RelativeFig5X = marginFig9RelativeFig5X;
+	int marginFig13RelativeFig5Z = marginFig9RelativeFig5Z;
+	int lengthFig13X = lengthFig9X;
+	int lengthFig13Y = lengthFig9Y;
+	int lengthFig13Z = lengthFig9Z;
+	Coord startFig13 = {
+		startFig9.x,
+		startFig12.y + lengthFig12Y + 1,
+		startFig9.z
+	};
+	drawParallelogram(color, startFig13, lengthFig13X, lengthFig13Y, lengthFig13Z);
+
+	//фигура 14(основание головы)
+	color = { 0.8, 0, 0};
+	int lengthFig14X = lengthFig5X;
+	int lengthFig14Y = 50;
+	int lengthFig14Z = lengthFig5Z;
+	Coord startFig14 = {
+		startFig5.x,
+		startFig13.y + lengthFig13Y + 1,
+		startFig5.z
+	};
+	drawParallelogram(color, startFig14, lengthFig14X, lengthFig14Y, lengthFig14Z);
+
+	//фигура 15(полусфера головы)
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	glTranslatef(startFig14.x + lengthFig14X / 2, startFig14.y + lengthFig14Y / 2, startFig14.z + lengthFig14Z / 2);
+	glScalef(0.5, 0.25, 1);
+	int lengthFig15X = lengthFig14X;
+	int lengthFig15Y = 20;
+	int lengthFig15Z = 20;
+	gluSphere(quadObj, lengthFig15X, lengthFig15Y, lengthFig15Z);
+	glPopMatrix();
 
 	////оси
 	glPushMatrix();	
