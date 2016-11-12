@@ -87,6 +87,17 @@ void drawParallelogram(Color color, Coord start, int heightX, int heightY, int h
 	glPopMatrix();
 }
 
+void solidCylinder(GLUquadric *qobj, GLdouble baseRadius, GLdouble topRadius,
+				   GLdouble height, GLint slices, GLint stacks) {
+	gluCylinder(qobj, baseRadius, topRadius, height, slices, stacks);
+	glRotatef(180, 1, 0, 0);
+	gluDisk(qobj, 0.0f, baseRadius, slices, 1);
+	glRotatef(180, 1, 0, 0);
+	glTranslatef(0.0f, 0.0f, height);
+	gluDisk(qobj, 0.0f, topRadius, slices, 1);
+	glTranslatef(0.0f, 0.0f, -height);
+}
+
 void Draw_sh() {
 
 
@@ -251,14 +262,85 @@ void Draw_sh() {
 
 	//фигура 15(полусфера головы)
 	glPushMatrix();
-	glColor3f(0, 0, 0);
-	glTranslatef(startFig14.x + lengthFig14X / 2, startFig14.y + lengthFig14Y / 2, startFig14.z + lengthFig14Z / 2);
-	glScalef(0.5, 0.25, 1);
-	int lengthFig15X = lengthFig14X;
-	int lengthFig15Y = 20;
-	int lengthFig15Z = 20;
-	gluSphere(quadObj, lengthFig15X, lengthFig15Y, lengthFig15Z);
+	glColor3f(1, 0, 0);
+	glTranslatef(
+		startFig14.x + lengthFig14X / 2, 
+		startFig14.y + lengthFig14Y, 
+		startFig14.z + lengthFig14Z / 2
+	);
+	glScalef(1, 0.8, 1.7);
+	GLUquadricObj *m_qObj = gluNewQuadric();
+	GLdouble eq[4];
+	eq[0] = 0;
+	eq[1] = startFig14.y + lengthFig14Y + 100;
+	eq[2] = 0;
+	eq[3] = 0.0f;
+
+	int lengthFig15X = lengthFig5X / 2;
+	int lengthFig15Y = lengthFig15X;
+	int lengthFig15Z = lengthFig5Z;
+	glEnable(GL_CLIP_PLANE0);
+	glClipPlane(GL_CLIP_PLANE0, eq);
+	gluSphere(m_qObj, lengthFig15X, lengthFig15Y, lengthFig15Z);
+	glDisable(GL_CLIP_PLANE0);
 	glPopMatrix();
+
+	//фигура 16(ножка глаза)
+	glPushMatrix();
+	glColor3f(0.5, 0.5, 0.5);
+	Coord startFig16 = {
+		startFig14.x + 10,
+		startFig14.y + lengthFig14Y,
+		startFig14.z + lengthFig14Z / 2
+	};
+	glTranslatef(startFig16.x, startFig16.y, startFig16.z);
+	int lengthFig16X = 140;
+	glRotated(-90, 0, 1, 0);
+	gluCylinder(quadObj, 10, 10, lengthFig16X, 100, 100);
+	glPopMatrix();
+	
+	//фигура 17(полусфера глаза)
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	int lengthFig17X = 20;
+	int lengthFig17Y = 30;
+	int lengthFig17Z = 30;
+	Coord startFig17 = {
+		startFig16.x - lengthFig16X - lengthFig17X + 2,
+		startFig16.y,
+		startFig16.z
+	};
+	glTranslatef(startFig17.x, startFig17.y, startFig17.z);
+	glScalef(1, 1, 1);
+	m_qObj = gluNewQuadric();
+	
+	eq[0] = startFig16.x;
+	eq[1] = 0;
+	eq[2] = 0;
+	eq[3] = 0.0f;
+
+	
+	glEnable(GL_CLIP_PLANE0);
+	glClipPlane(GL_CLIP_PLANE0, eq);
+	gluSphere(m_qObj, lengthFig17X, lengthFig17Y, lengthFig17Z);
+	glDisable(GL_CLIP_PLANE0);
+	glPopMatrix();
+
+	//фигура 18(€блоко глаза)
+	glPushMatrix();
+	glColor3f(0, 0, 1);
+	int lengthFig18X = 10;
+	Coord startFig18 = {
+		startFig17.x + lengthFig18X,
+		startFig17.y,
+		startFig17.z
+	};
+	glTranslatef(startFig18.x, startFig18.y, startFig18.z);
+	
+	glRotated(-90, 0, 1, 0);
+	solidCylinder(quadObj, 10, 10, lengthFig18X, 100, 100);
+	glPopMatrix();
+
 
 	////оси
 	glPushMatrix();	
@@ -434,6 +516,7 @@ int main(int argc, char**argv) {
 	Init();
 	glutKeyboardFunc(Keyboard);
 	glutSpecialFunc(SKeyboard);
+	glScalef(1, 1, 0.5);
 	glutMainLoop();
 	return 0;
 
