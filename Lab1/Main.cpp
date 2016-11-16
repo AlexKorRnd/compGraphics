@@ -1,13 +1,33 @@
-#include <windows.h>
-#include <stdlib.h> 
-#include <time.h>
-#include <glut.h>
-#include <math.h>
+#pragma comment(lib, "glaux.lib")
+#pragma comment (lib, "OpenGL32.lib") //Manually add this library
 
-const float SCREEN_WIDTH = 700;
-const float SCREEN_HEIGHT = 700;
+#pragma comment (lib, "GLu32.lib") //Manually add this library
+
+
+
+//#pragma comment (lib, "GlAux.lib") //Manually add this library
+
+
+
+#pragma comment (lib, "kernel32.lib") //Manually add this library
+
+#pragma comment (lib, "user32.lib") //Manually add this library
+
+#pragma comment (lib, "gdi32.lib") //Manually add this library
+
+#pragma comment (lib, "advapi32.lib") //Manually add this library
+#include <stdio.h>
+#include <glaux.h>
+#include <windows.h>
+#include <math.h>
+#include <glut.h>
+#include <gl\gl.h>
+#include <gl\glu.h>
+
+float windowWidth = 700;
+float windowHeight = 700;
 float diffuse[] = { 1.0, 1.0, 1.0, 1.0 };
-float pos[] = { SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 250.0, 0.0 };
+float pos[] = { windowWidth / 2, windowHeight / 2, 250.0, 0.0 };
 float pos2[] = { -100, 0, 500.0, 0.0 };
 float angel = 0.0;
 float rot = 0.0;
@@ -16,6 +36,9 @@ float scal = 0.0;
 float ambient[4] = { 0.5, 0.5, 0.5, 1 };
 GLfloat front_color[] = { 0,1,0,1 };
 GLfloat back_color[] = { 0,0,1,1 };
+
+
+unsigned int textures[3];
 
 struct Coord {
 	int x;
@@ -28,6 +51,22 @@ struct Color {
 	double green;
 	double blue;
 };
+
+wchar_t *convertCharArrayToLPCWSTR(const char* charArray)
+{
+	wchar_t* wString = new wchar_t[4096];
+	MultiByteToWideChar(CP_ACP, 0, charArray, -1, wString, 4096);
+	return wString;
+}
+
+void LoadTexrures() {
+
+	AUX_RGBImageRec *texture1 = auxDIBImageLoadA("123.bmp");
+
+	
+
+}
+
 
 void drawParallelogram(Color color, Coord start, int heightX, int heightY, int heightZ) {
 	glPushMatrix();
@@ -109,7 +148,7 @@ void Draw_sh() {
 	quadObj = gluNewQuadric();
 
 	// основание(фигура 2)
-	Coord startFig2 = { 0, -200, 0 };
+	Coord startFig2 = { 20, -250, 10 };
 	Color color = { 0.3, 0.3, 0.3 };
 	int lengthFig2X = 300, lengthFig2Y = 20, lengthFig2Z = 300;
 	drawParallelogram(color, startFig2, lengthFig2X, lengthFig2Y, lengthFig2Z);
@@ -385,7 +424,6 @@ void Draw_sh() {
 
 	//glDisable(GL_DEPTH_TEST);
 	glutSwapBuffers();
-
 }
 
 
@@ -402,74 +440,74 @@ void Keyboard(unsigned char key, int x, int y) {
 		angel = 0;
 		angel++;
 		glRotatef(angel, 0.0, 1.0, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case 'a':
 		angel = 0;
 		angel--;
 		glRotatef(angel, 0.0, 1.0, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case 'w':
 		angel = 0;
 		angel--;
 		glRotatef(angel, 1.0, 0.0, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case 's':
 		angel = 0;
 		angel++;
 		glRotatef(angel, 1.0, 0.0, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case 'x':
 		angel = 0;
 		angel--;
 		glRotatef(angel, 0.0, 0.0, 1.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case 'z':
 		angel = 0;
 		angel++;
 		glRotatef(angel, 0.0, 0.0, 1.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 		//движение по осям
 	case '6':
 		rot = 0;
 		rot++;
 		glTranslatef(rot, 0.0, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case '4':
 		rot = 0;
 		rot--;
 		glTranslatef(rot, 0.0, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case '8':
 		rot = 0;
 		rot++;
 		glTranslatef(0.0, rot, 0.0);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case '2':
 		rot = 0;
 		rot--;
 		glTranslatef(0.0, rot, 0.00);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case '9':
 		rot = 0;
 		rot--;
 		glTranslatef(0.0, 0.0, rot);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case '1':
 		rot = 0;
 		rot++;
 		glTranslatef(0.0, 0.0, rot);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 
 	}
@@ -482,14 +520,14 @@ void SKeyboard(int key, int x, int y) {
 		scal = 1.0;
 		scal += 0.05;
 		glScalef(scal, scal, scal);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	case GLUT_KEY_DOWN:
 
 		scal = 1.0;
 		scal -= 0.05;
 		glScalef(scal, scal, scal);
-		glutPostRedisplay();
+		Draw_sh();
 		break;
 	}
 
@@ -497,24 +535,9 @@ void SKeyboard(int key, int x, int y) {
 
 
 
-void Init() {
-	glClearColor(180.0 / 255.0, 243.0 / 255.0, 246.0 / 255.0, 1.0);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, -250, 250);
-	glMatrixMode(GL_MODELVIEW);
-
-
-}
-
-
-int main(int argc, char**argv) {
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	glutCreateWindow("Лабораторная работа 2");
-	glutDisplayFunc(Draw_sh);
+//Called for initiation
+bool Init(void)
+{
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -524,6 +547,42 @@ int main(int argc, char**argv) {
 	glLightfv(GL_LIGHT0, GL_POSITION, pos);
 	glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
 	glEnable(GL_COLOR_MATERIAL);
+
+	//Load identity modelview
+	glClearColor(180.0 / 255.0, 243.0 / 255.0, 246.0 / 255.0, 1.0);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glOrtho(-windowWidth / 2, windowWidth / 2, -windowHeight / 2, windowHeight / 2, -250, 250);
+	glMatrixMode(GL_MODELVIEW);
+
+
+	//Depth states
+	glClearDepth(1.0f);
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_CULL_FACE);
+
+	//We use glScale when drawing the scene
+	glEnable(GL_NORMALIZE);
+
+	glPopMatrix();
+
+	return true;
+}
+
+
+
+int main(int argc, char**argv) {
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	glutInitWindowSize(windowWidth, windowHeight);
+
+	glutCreateWindow("Лабораторная работа 2");
+	glutDisplayFunc(Draw_sh);
+	
+
+
 	Init();
 	glutKeyboardFunc(Keyboard);
 	glutSpecialFunc(SKeyboard);
